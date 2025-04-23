@@ -6,14 +6,31 @@
 #include "main.h"
 
 #define CNBlockSize 128
+#define CNExtendSize 64
 
-void clearStream(char* stream, size_t len);
+void clearStream(char* buffer, size_t len);
 
-void extendBlock(char* stream, size_t currentSize) {
-    char* streamTmp = (char*)realloc(stream, (currentSize+CNBlockSize)*sizeof(char));
-    if (streamTmp) {
-        puts("Got an error in realloc!\nreader.c");
+void extendBlock(char** buffer, size_t* currentSize, size_t extendBy) {
+    // validating data passed
+    if (!buffer || !*buffer || !currentSize)  {
+        printf("Something was null in the extend block call!\n");
+        return;
     }
+    if (SIZE_MAX - *currentSize < extendBy) {
+        printf("Attempting to extend by too much!\n");
+        return;
+    }
+    size_t newSize = ((*currentSize)+extendBy)*sizeof(char);
+    char* bufferTmp = realloc((*buffer), newSize);
+    // error checking
+    if (bufferTmp == NULL) {
+        puts("Got an error in realloc!\nreader.c");
+        return;
+    }
+    
+    *buffer = bufferTmp;
+    *currentSize = newSize;
+    
 }
 
 // @!T function
@@ -21,38 +38,55 @@ void extendBlock(char* stream, size_t currentSize) {
 // @!I Reads a signle line of input from a file
 // @!G Reader
 // @!A file (fileptr)
-// @!A stream (charptr)
-// @!A streamLength (size_t)
-// @!R int (-1 (EOF), 0 (Success), 1 (End of stream))
-int readline(FILE* file, char* stream, size_t streamLen) {
-    char buffer = ' ';
-    size_t count = 0;
-    char* index = stream;
-    clearStream(stream, streamLen);
-    int retVal = 0;
-    // read through the file
-    // stop at every newline, end of str, and end of file
-    while ((buffer = fgetc(file)) != '\n' && 
-           buffer != '\0' && 
-           buffer != EOF &&
-           streamLen-1 >= count) {
-        *index = buffer;
-        index++; count++;
+// @!A buffer (char**)
+// @!A bufferLength (size_t*)
+// @!R int (-1 (EOF), 0 (Success)
+int getLine(FILE* file, char** buffer, size_t* bufferSize) {
+    // if the file is NULL return end of file (it doesnt exist)
+    if (file == NULL) return EOF;
+    // comment of shame
+    // this comment causes a memory corruption bug
+    // it filled in string[size] which went over by one
+    // // clearStream(*buffer, *bufferSize);
+
+    // variable initialization
+    int charRead = 0;
+    size_t charsRead = 0;
+
+    // readloop
+    // if its a newline, string terminator, or end of file ...
+    //    we dont want to continue
+    while ((charRead = fgetc(file)) != EOF &&
+            charRead != '\n' &&
+            charRead != '\0') {
+        // if the buffer is full (or almost full)
+        // extend it (and update the values)
+        // this is why pointers are great :)
+        if ((*bufferSize)-2 <= charsRead) {
+            // extend the buffer
+            // printf("Extending the buffer!\n");
+            extendBlock(buffer, bufferSize, CNExtendSize);
+            // printf("Buffer extended?\n");
+        }
+        // set the character in the buffer to the new character
+        (*buffer)[charsRead++] = charRead;
+        // update the next character with a null terminator
+        // could nove this just outside with the same effect, but this is safer I think
+        (*buffer)[charsRead] = '\0';
+        
     }
-    if (streamLen-1 <= count) {
-        retVal = 1;
+    // if we read a newline immediatly we return an empty string
+    if (charRead == '\n' && charsRead == 0) {
+        // go to the string and set the first character to '\0'
+        // this is equal to "*buffer[0] = '\0';"
+        **buffer = '\0';
     }
-    *index = '\0';
-    if (buffer == EOF) {
+    // (*buffer)[charsRead] = '\0';
+    // if we read the EOF return EOF
+    if (charRead == EOF) {
         return EOF;
     }
-    return retVal;
+    // return 0 :D
+    return 0;
 }
 
-void clearStream(char* stream, size_t len) {
-    size_t count;
-    char* index;
-    for (index = stream, count = 0; count < len; index++, count++) {
-        index = '\0';
-    }
-}

@@ -6,8 +6,10 @@
 #include "main.h"
 
 char* longArgs[] = {"--help", "\0"};
+int longArgRet[] = {1, 0};
 int longArgC = 1;
 char* shortArgs = "h\0";
+int shortArgRet[] = {1, 0};
 int shortArgC = 1;
 struct strList* files = NULL;
 
@@ -18,12 +20,27 @@ short findArgString(char* lookStr, char* findStr);
 int main(int argc, char** argv) {
     int retVal;
     if ((retVal = parseArgs(argc, argv))) {
-        puts("Arg parsing returned a non-zero value!\n");
+        printf("Arg parsing returned a non-zero value!\n");
         printf("Got %d\n", retVal);
         return retVal;
     }
     printStrList(files);
+    
+    struct strList* fileIterator = files;
+    if (!fileIterator) {
+        printf("No files added!");
+        destroyStrList(files);
+        return 0;
+    }
+    
+    while (fileIterator != NULL) {
+        parseFile(fileIterator);
+        fileIterator = fileIterator->next;
+    }
+
+
     destroyStrList(files);
+    return 0;
 }
 
 
@@ -35,7 +52,8 @@ int parseArgs(int argc, char** argv) {
             // printf("Long args\n");
             for (int j = 0; j < shortArgC; j++) {
                 if (findArgString(argv[i], longArgs[j])) {
-                    printf("Found argument: %s\n", longArgs[j]);
+                    printf("Found argument: %s\n", longArgs[j]); // hehehe
+                    return longArgRet[j];
                 }
             }
         } // else if only the first character is a '-'
@@ -44,13 +62,14 @@ int parseArgs(int argc, char** argv) {
             // printf("Short args\n");
             for (int j = 0; j < shortArgC; j++) {
                 if (argFindr(argv[i], shortArgs[j])) {
-                    printf("Found argument: %c\n", shortArgs[j]);
+                    printf("Found argument: %c\n", shortArgs[j]); // heheh
+                    return shortArgRet[j];
                 }
 
             }
         }
         else {
-            printf("adding file to list\n");
+            // printf("adding file to list\n");
             // assuming its a file to be parsed
             struct strList* newFile = genStrEleemnt(argv[i]);
             if (files == NULL) {
@@ -88,6 +107,8 @@ short findArgString(char* lookStr, char* findStr) {
     if (*lookStrPtr == '\0' && *findStrPtr == '\0') { return 1; }
     return 0;
 }
+
+
 
 
 // this is going to be a super long line that 'breaks' my code and causes it to fail somehow. However, I have no idea how that will happen. WHICH is why I am typing out this line :)

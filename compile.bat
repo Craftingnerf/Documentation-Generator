@@ -1,1 +1,2 @@
-gcc -Wall -Werror -g -Q  ./main.c ./parser.c ./reader.c ./strList.c ./pairList.c -o docGen.exe
+@echo off
+gcc -Wall -Werror -g  ./main.c ./parser.c ./reader.c ./strList.c -o docGen.exe

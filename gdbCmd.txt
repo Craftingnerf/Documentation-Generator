@@ -1,0 +1,3 @@
+run main.c
+
+run main.c main.h fileSystem.c strList.c parser.c
