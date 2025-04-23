@@ -1,0 +1,1 @@
+gcc -Wall -Werror -g -Q  ./main.c ./parser.c ./reader.c ./strList.c ./pairList.c -o docGen.exe
