@@ -87,6 +87,6 @@ int getLine(FILE* file, char** buffer, size_t* bufferSize) {
         return EOF;
     }
     // return 0 :D
-    return 0;
+    return charsRead;
 }
 

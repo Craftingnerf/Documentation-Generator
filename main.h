@@ -7,6 +7,16 @@
     #define DocGen
 
     #define TagInitiator "@!"
+
+    #define TypeTag     "T"
+    #define NameTag     "N"
+    #define InfoTag     "I"
+    #define GroupTag    "G"
+    #define ArgTag      "A"
+    #define ReturnTag   "R"
+    #define HelpFuncTag "F"
+    #define DateTag     "D"
+
     #include <stdio.h>
     #include <stdlib.h>
     struct charIntList {
