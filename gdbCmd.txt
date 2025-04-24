@@ -1,3 +1,2 @@
-run main.c
+run ./dataList.c ./strList.c
 
-run main.c main.h fileSystem.c strList.c parser.c

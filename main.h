@@ -7,32 +7,26 @@
     #define DocGen
 
     #define TagInitiator "@!"
+    #define TagTerminator "!@"
 
-    #define TypeTag     "T"
-    #define NameTag     "N"
-    #define InfoTag     "I"
-    #define GroupTag    "G"
-    #define ArgTag      "A"
-    #define ReturnTag   "R"
-    #define HelpFuncTag "F"
-    #define DateTag     "D"
+    #define TypeTag     'T'
+    #define NameTag     'N'
+    #define InfoTag     'I'
+    #define GroupTag    'G'
+    #define ArgTag      'A'
+    #define ReturnTag   'R'
+    #define HelpFuncTag 'F'
+    #define DateTag     'D'
 
     #include <stdio.h>
     #include <stdlib.h>
-    struct charIntList {
-        int pair;
-        struct charIntList *next;
-        char* key;
-    };
+    
     struct strList {
         struct strList* next;
         char* str;
     };
     
     struct miscData { // has all data elements
-        int miscC; // misc info count
-        int helprC; // helper functions count
-        int argC; // argument count
 
         char* type; // type (??)
         char* name; // name
@@ -40,12 +34,12 @@
         char* retType; // return type
         char* date; // date
 
-        char** miscV; // misc info
-        char** helprV; // helper functions
-        char** argV; // arguments
+        struct strList* miscList; // misc info
+        struct strList* helprList; // helper functions
+        struct strList* argList; // arguments
     };
     struct dataList {
-        struct miscData* next;
+        struct dataList* next;
         struct miscData this;
     };
 
@@ -53,17 +47,28 @@
     void destroyStrList(struct strList *firstPtr);
     struct strList* getLastInList(struct strList *firstPtr);
     struct strList* addToStrList(struct strList *firstPtr, struct strList* element);
-    struct strList* genStrEleemnt(char* name);
+    struct strList* genStrElement(char* name);
     void printStrList(struct strList *firstPtr);
+
+    // data list functions
+    void destroyDataList(struct dataList *firstPtr);
+    struct dataList* getLastInDataList(struct dataList *firstPtr);
+    struct dataList* addToDataList(struct dataList *firstPtr, struct dataList* element);
+    struct dataList* genDataElement();
+    struct dataList* pushFrontData(struct dataList* first, struct dataList* element);
+    void printDataList(struct dataList* front);
 
     // filesystem functions
     void make_directory(const char* name);
 
     // file reader functions
     int getLine(FILE* file, char** buffer, size_t* bufferSize);
+    // normally internal function
+    // using it in parser.c
+    void extendBlock(char** buffer, size_t* currentSize, size_t extendBy);
 
     // parser functions
-    void parseFile(struct strList* fileList);
+    struct dataList* parseFile(struct strList* fileList);
 #endif
 
 

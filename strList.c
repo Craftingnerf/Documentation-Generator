@@ -32,6 +32,9 @@ void destroyStrList(struct strList *firstPtr) {
 // @!R struct strList* (strList pointer) (to the last element)
 struct strList* getLastInList(struct strList *firstPtr) {
     struct strList* current = firstPtr;
+    if (current == NULL) {
+        return NULL;
+    }
     while (current->next != NULL) {
         current = current->next;
     }
@@ -46,6 +49,9 @@ struct strList* getLastInList(struct strList *firstPtr) {
 // @!A element (struct strList*) (element to append)
 // @!R struct strList* (strList pointer) (to the element)
 struct strList* addToStrList(struct strList *firstPtr, struct strList* element) {
+    if (firstPtr == NULL) {
+        return NULL;
+    }
     struct strList* last = getLastInList(firstPtr);
     last->next = element;
     return element;
@@ -57,7 +63,7 @@ struct strList* addToStrList(struct strList *firstPtr, struct strList* element) 
 // @!G Helper/strList
 // @!A name (char* (string)) (String value for the element)
 // @!R struct strList (element generated)
-struct strList* genStrEleemnt(char* name) {
+struct strList* genStrElement(char* name) {
     struct strList* new;
     new = malloc(1*sizeof(struct strList));
     new->str = name;
@@ -67,7 +73,7 @@ struct strList* genStrEleemnt(char* name) {
 
 // @!T function
 // @!N printStrList
-// @!I Goes through a strlist and prints out each element # and string
+// @ !I Goes through a strlist and prints out each element # and string
 // @!G Helper/strList
 // @!A firstPtr (struct strList*) (First element in the list)
 // @!R void

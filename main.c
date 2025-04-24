@@ -32,10 +32,12 @@ int main(int argc, char** argv) {
         destroyStrList(files);
         return 0;
     }
-    
+    printf("\n");
     while (fileIterator != NULL) {
-        parseFile(fileIterator);
+        struct dataList* fileDocs = parseFile(fileIterator);
         fileIterator = fileIterator->next;
+        printDataList(fileDocs);
+        
     }
 
 
@@ -43,7 +45,13 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-
+// @!T Function
+// @!N parseArgs
+// @!I Function for parsing arguments
+// @!I Responsible for getting switches and file names/paths
+// @!R int
+// @!A int argc (amount of arguments)
+// @!A char** argv (2D array of chars for each word in the command)
 int parseArgs(int argc, char** argv) {
     for (int i = 1; i < argc; i++) { 
         // if the first two characters are '--'
@@ -71,7 +79,7 @@ int parseArgs(int argc, char** argv) {
         else {
             // printf("adding file to list\n");
             // assuming its a file to be parsed
-            struct strList* newFile = genStrEleemnt(argv[i]);
+            struct strList* newFile = genStrElement(argv[i]);
             if (files == NULL) {
                 files = newFile;
             } else {
