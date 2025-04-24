@@ -27,7 +27,7 @@ void parseFile(struct strList* fileList) {
         fclose(filePtr);
         return;
     }
-
+    size_t lineNo = 0;
     int strLen = 0;
     int mutliLineComment = 0;
     int lastCommentReturn = 0;
@@ -38,9 +38,12 @@ void parseFile(struct strList* fileList) {
          * (getline will return EOF)
          * Need to have the assignment in the while loop and use a break at the end of the loop
          */ 
+        lineNo++;
         strLen = getLine(filePtr, line, lineSize);
         // do what we need to do with the line
         if ((lastCommentReturn = lineContainsComment(*line, strLen, mutliLineComment))) {
+            printf("Line : %-5lld | ", lineNo);
+            printf("last mutliline : %d, ", mutliLineComment);
             if (lastCommentReturn > 1) {
                 mutliLineComment = 1;
             } else if (mutliLineComment) {
@@ -48,8 +51,6 @@ void parseFile(struct strList* fileList) {
             }
             printf("Multiline: %d, last return val : %d | ", mutliLineComment, lastCommentReturn);
             printf("%s\n", *line);
-        } else {
-            // printf("%s\n", *line);
         }
         // need this and the assignment at the top of the loop for last line in file to be read
         if (strLen == EOF) {
@@ -70,20 +71,24 @@ void parseFile(struct strList* fileList) {
 
 int lineContainsComment
     (char* line, size_t lineLen, int multilineFlag) {
-
+    if (lineLen < 2) {
+        return 0; // cant have a comment with less than two characters
+    }
     char* linePtr = line;
     int lastSlashFlag = 0;
     int multilineEndFlag = 0;
-    for (int count = 0; count < lineLen; count++, linePtr++) {
+    for (int count = 0; count < lineLen && *linePtr != '\0'; count++, linePtr++) {
         // if there is a // or a /* then there is a comment on this line
         // if there is a /* then there is a multiline comment and we need to return 2 for a multiline flag to be set
         
         if (*linePtr == '/') {
             // do / checks
             if (lastSlashFlag && !multilineFlag) {
+                // printf("double slash comment | ");
                 return 1;
             } else if (multilineFlag && multilineEndFlag) {
                 multilineFlag = 0;
+                // printf("multiline end | ");
                 return 1;
             } else {
                 lastSlashFlag = 1;
@@ -92,6 +97,7 @@ int lineContainsComment
             // do * checks
             if (lastSlashFlag && !multilineFlag) {
                 // need to check for an end still
+                // printf("multiline begin | ");
                 multilineFlag = 1;
             } else if (multilineFlag) {
                 multilineEndFlag = 1;
