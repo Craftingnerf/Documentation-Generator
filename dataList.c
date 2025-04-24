@@ -164,12 +164,4 @@ void printDataList(struct dataList* front) {
         printf("\n");
         front = front->next;
     }
-
-
-
-
-
-
-
-
 }

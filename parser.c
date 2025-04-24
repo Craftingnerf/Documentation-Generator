@@ -13,7 +13,12 @@ struct dataList* parseFile(struct strList* fileList);
 size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size);
 int allocateListString(char** string, size_t* size, char* startPtr);
 
-
+// @!T Function
+// @!N parseFile
+// @!A strList* list of file names/paths
+// @!R dataList* list of documentation data
+// @!I Reads through a file and generates documentation in a struct
+// @!I heavy lifter and current headache for this program :D
 struct dataList* parseFile(struct strList* fileList) {
     FILE* filePtr = fopen(fileList->str, "r");
     if (filePtr == NULL) {
@@ -243,6 +248,13 @@ struct dataList* parseFile(struct strList* fileList) {
     return startPtr;
 }
 
+// @!T Function
+// @!N lineContainsComment
+// @!I figures out if the current line contains a comment
+// @!R int (1 or 0) (treat as bool)
+// @!A char* | current line
+// @!A size_t | line length
+// @!A int | flag for if the last line was a multiline comment with no terminator
 int lineContainsComment
     (char* line, size_t lineLen, int multilineFlag) {
     if (lineLen < 2) {
@@ -290,6 +302,14 @@ int lineContainsComment
     }
 }
 
+// @!T Function
+// @!N isDocComment
+// @!A char* | current line
+// @!A size_t | length of the line
+// @!A tagTypePointer | pointer to the tagType pointer to be used for later
+// @!R int (1 or 0) treat as bool
+// @!I Looks for if the current comment has a documentation initialisor
+// @!I changes the char* of the tagTypePtr passed in to the char after the tag is found (the type)
 int isDocComment(char* line, size_t lineLen, char** tagTypePtr) {
     char* tagStr = TagInitiator;
     char* tagStrPtr = tagStr;
@@ -308,7 +328,14 @@ int isDocComment(char* line, size_t lineLen, char** tagTypePtr) {
     return 0;
 }
 
-
+// @!T Function
+// @!N generateStringFromComment
+// @!A char* | current line
+// @!A char** | pointer to string to change
+// @!A size_t* | size of the string we change
+// @!R size_t | characters added
+// @!I Loops through the current line (from the starting point given)
+// @!I It adds each character to the string and if there isnt enough room, we extend the string by allocating more characters to the array
 size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size) {
     char ch;
     int charsRead = 0;
@@ -331,8 +358,19 @@ size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size
     return charsRead;
 }
 
+// @!T Function
+// @!N allocateListString
+// @!A char** | pointer to string to allocate and fill
+// @!A size_t* | pointer to the size of the string
+// @!A char* | fill starting point
+// @!R int | if its a non-zero return we throw a tantrum :D
+// @!I Allocates space for the string location given to us.
+// @!I Fills in the string at the specified location
 int allocateListString(char** string, size_t* size, char* startPtr) {
     *string = malloc((*size)*sizeof(char));
+    if (*string == NULL) {
+        return 1;
+    }
     // generate the string (should size the str)
     generateStringFromComment(startPtr, string, size);
     return 0;

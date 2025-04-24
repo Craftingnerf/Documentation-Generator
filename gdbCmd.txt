@@ -1,2 +1,3 @@
 run ./dataList.c ./strList.c
 
+run main.c parser.c reader.c main.h dataList.c strList.c

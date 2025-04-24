@@ -17,6 +17,12 @@ int parseArgs(int argc, char** argv);
 short argFindr(char* str, char arg);
 short findArgString(char* lookStr, char* findStr);
 
+// @!T Main Function
+// @!N Main
+// @!I parses arguments
+// @!I sends files to be parsed in parser.c
+// @!I prints out the files once parsed
+// @!I should clean up aswell
 int main(int argc, char** argv) {
     int retVal;
     if ((retVal = parseArgs(argc, argv))) {
@@ -37,7 +43,9 @@ int main(int argc, char** argv) {
         struct dataList* fileDocs = parseFile(fileIterator);
         fileIterator = fileIterator->next;
         printDataList(fileDocs);
-        
+
+        // dont need this
+        destroyDataList(fileDocs);
     }
 
 
@@ -90,6 +98,14 @@ int parseArgs(int argc, char** argv) {
     
     return 0; 
 }
+
+// @!T Function
+// @!N argFindr
+// @!I Function to find a single char in a string
+// @!I Created for the argParser function
+// @!A 'string' to search
+// @!A character to look for
+// @!R short (1 or a 0) (as a boolean)
 short argFindr(char* str, char arg) {
     char* currentChar = str; // pointer to the first element
     for (; *currentChar != '\0'; currentChar++) {
@@ -99,6 +115,13 @@ short argFindr(char* str, char arg) {
     }
     return 0;
 }
+// @!T Function
+// @!N findArgString
+// @!I Finds a string within another string
+// @!I Created for the argParser function
+// @!A char* (string) to look in
+// @!A char* to search for
+// @!R short (1 or 0) (treat it like a bool)
 short findArgString(char* lookStr, char* findStr) {
     char* lookStrPtr = lookStr;
     char* findStrPtr = findStr;
@@ -115,9 +138,6 @@ short findArgString(char* lookStr, char* findStr) {
     if (*lookStrPtr == '\0' && *findStrPtr == '\0') { return 1; }
     return 0;
 }
-
-
-
 
 // this is going to be a super long line that 'breaks' my code and causes it to fail somehow. However, I have no idea how that will happen. WHICH is why I am typing out this line :)
 // it worked :D

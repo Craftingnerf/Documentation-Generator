@@ -14,8 +14,12 @@
 // @!A firstPtr (struct strList) (First element in the list)
 // @!R Void
 void destroyStrList(struct strList *firstPtr) {
+    if (firstPtr == NULL) {
+        return;
+    }
     struct strList *current = firstPtr;
     struct strList *last;
+    
     while (current->next != NULL) {
         last = current;
         current = current->next;

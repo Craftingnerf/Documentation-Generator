@@ -1,6 +1,6 @@
 // @!T File
 // @!N main.h
-// @!I header file with imports
+// @!I header file with imports for the docGen program
 // @!G header
 // @!D 21/04/2025
 #ifndef DocGen
@@ -20,12 +20,33 @@
 
     #include <stdio.h>
     #include <stdlib.h>
-    
+
+    // @!T Struct
+    // @!N StrList
+    // @!I String list for data storage
+    // @!A strList for the next element
+    // @!A char* for current string
+    // @!F destroyStrList
+    // @!F getLastInList
+    // @!F addToStrList
+    // @!F genStrElement
+    // @!F printStrList
     struct strList {
         struct strList* next;
         char* str;
     };
     
+    // @!T Struct
+    // @!N misc Data
+    // @!I Struct to hold the data of each documentation comment
+    // @!A char* for type
+    // @!A char* for name
+    // @!A char* for group
+    // @!A char* for return type
+    // @!A char* for date
+    // @!A Str list for info
+    // @!A Str list for helper functions
+    // @!A Str list for arguments
     struct miscData { // has all data elements
 
         char* type; // type (??)
@@ -38,6 +59,18 @@
         struct strList* helprList; // helper functions
         struct strList* argList; // arguments
     };
+
+    // @!T Struct
+    // @!N dataList
+    // @!I allows miscData struct to go into its own list format
+    // @!A dataList* for the next element
+    // @!A miscData - for the current elements data
+    // @!F destroyDataList
+    // @!F getLastInDataList
+    // @!F addToDataList
+    // @!F genDataElement
+    // @!F pushFrontData
+    // @!F printDataList
     struct dataList {
         struct dataList* next;
         struct miscData this;
@@ -71,23 +104,3 @@
     struct dataList* parseFile(struct strList* fileList);
 #endif
 
-
-
-// Documentation comments
-
-// -- general --
-// @!T Type (Function, Struct, File, Misc)
-// @!N Name
-// @!I Misc info
-// @!G grouping (defaults to file)
-// ^ folder for the documentation to be in (MD documentation style)
-
-// -- function specific --
-// @!A Arguments
-// @!R Return type
-
-// -- struct specific --
-// @!F helper functions
-
-// -- file specific --
-// @!D Date
