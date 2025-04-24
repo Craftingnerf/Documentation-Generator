@@ -19,6 +19,7 @@ short findArgString(char* lookStr, char* findStr);
 
 // @!T Main Function
 // @!N Main
+// @!G Main
 // @!I parses arguments
 // @!I sends files to be parsed in parser.c
 // @!I prints out the files once parsed
@@ -55,6 +56,7 @@ int main(int argc, char** argv) {
 
 // @!T Function
 // @!N parseArgs
+// @!G Main
 // @!I Function for parsing arguments
 // @!I Responsible for getting switches and file names/paths
 // @!R int
@@ -101,6 +103,7 @@ int parseArgs(int argc, char** argv) {
 
 // @!T Function
 // @!N argFindr
+// @!G Main
 // @!I Function to find a single char in a string
 // @!I Created for the argParser function
 // @!A 'string' to search
@@ -117,6 +120,7 @@ short argFindr(char* str, char arg) {
 }
 // @!T Function
 // @!N findArgString
+// @!G Main
 // @!I Finds a string within another string
 // @!I Created for the argParser function
 // @!A char* (string) to look in

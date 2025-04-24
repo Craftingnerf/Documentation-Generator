@@ -23,6 +23,7 @@
 
     // @!T Struct
     // @!N StrList
+    // @!G header
     // @!I String list for data storage
     // @!A strList for the next element
     // @!A char* for current string
@@ -38,6 +39,7 @@
     
     // @!T Struct
     // @!N misc Data
+    // @!G header
     // @!I Struct to hold the data of each documentation comment
     // @!A char* for type
     // @!A char* for name
@@ -62,6 +64,7 @@
 
     // @!T Struct
     // @!N dataList
+    // @!G header
     // @!I allows miscData struct to go into its own list format
     // @!A dataList* for the next element
     // @!A miscData - for the current elements data

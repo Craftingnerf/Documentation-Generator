@@ -15,6 +15,7 @@ int allocateListString(char** string, size_t* size, char* startPtr);
 
 // @!T Function
 // @!N parseFile
+// @!G Parser
 // @!A strList* list of file names/paths
 // @!R dataList* list of documentation data
 // @!I Reads through a file and generates documentation in a struct
@@ -250,6 +251,7 @@ struct dataList* parseFile(struct strList* fileList) {
 
 // @!T Function
 // @!N lineContainsComment
+// @!G Parser
 // @!I figures out if the current line contains a comment
 // @!R int (1 or 0) (treat as bool)
 // @!A char* | current line
@@ -304,6 +306,7 @@ int lineContainsComment
 
 // @!T Function
 // @!N isDocComment
+// @!G Parser
 // @!A char* | current line
 // @!A size_t | length of the line
 // @!A tagTypePointer | pointer to the tagType pointer to be used for later
@@ -330,6 +333,7 @@ int isDocComment(char* line, size_t lineLen, char** tagTypePtr) {
 
 // @!T Function
 // @!N generateStringFromComment
+// @!G Parser
 // @!A char* | current line
 // @!A char** | pointer to string to change
 // @!A size_t* | size of the string we change
@@ -360,6 +364,7 @@ size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size
 
 // @!T Function
 // @!N allocateListString
+// @!G Parser
 // @!A char** | pointer to string to allocate and fill
 // @!A size_t* | pointer to the size of the string
 // @!A char* | fill starting point

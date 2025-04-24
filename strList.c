@@ -9,6 +9,7 @@
 
 // @!T function
 // @!N destroyStrList
+// @!G Parser
 // @!I goes through and frees all elements in a list
 // @!G Helper/strList
 // @!A firstPtr (struct strList) (First element in the list)
@@ -30,6 +31,7 @@ void destroyStrList(struct strList *firstPtr) {
 
 // @!T function
 // @!N getLastInList
+// @!G Parser
 // @!I goes through entire list to get the last element
 // @!G Helper/strList
 // @!A firstPtr (struct strList*) (First element in the list)
@@ -47,6 +49,7 @@ struct strList* getLastInList(struct strList *firstPtr) {
 
 // @!T function
 // @!N addToStrList
+// @!G Parser
 // @!I goes to the last element in the list and adds the element argument to the next pointer of the current last element (appends the element to the list)
 // @!G Helper/strList
 // @!A firstPtr (struct strList*) (First element in the list)
@@ -63,6 +66,7 @@ struct strList* addToStrList(struct strList *firstPtr, struct strList* element) 
 
 // @!T function
 // @!N genStrEleemnt
+// @!G Parser
 // @!I generates a new strList element
 // @!G Helper/strList
 // @!A name (char* (string)) (String value for the element)
@@ -77,7 +81,8 @@ struct strList* genStrElement(char* name) {
 
 // @!T function
 // @!N printStrList
-// @ !I Goes through a strlist and prints out each element # and string
+// @!G Parser
+// @!I Goes through a strlist and prints out each element # and string
 // @!G Helper/strList
 // @!A firstPtr (struct strList*) (First element in the list)
 // @!R void
