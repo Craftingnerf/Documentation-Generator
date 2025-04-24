@@ -1,15 +1,15 @@
 # Documentation Generator
 
-A C program that I made to generate documentation from code comments
-Supports mutli-line and single-line comments for documentation generation
-I dont know if it has any vunerabilities or memory leaks
-if it does, open an issue and I'll see if I can find it.
-I made this on Windows and the only debugging I found that was easy enough to use was gdb (I'm using VS Code not VS Community)
+A C program that I made to generate documentation from code comments <br>
+Supports mutli-line and single-line comments for documentation generation <br>
+I dont know if it has any vunerabilities or memory leaks <br>
+if it does, open an issue and I'll see if I can find it. <br>
+I made this on Windows and the only debugging I found that was easy enough to use was gdb (I'm using VS Code not VS Community) <br>
 
 ## How to use
-The documentation comments are denoted by first, being a comment (who would have guessed!)
-The primary thing that seperates documentation comments from other comments is the initialiser `@!` in the comment
-Immediatly following the initialiser you need a type specifier
+The documentation comments are denoted by first, being a comment (who would have guessed!) <br>
+The primary thing that seperates documentation comments from other comments is the initialiser `@!` in the comment <br>
+Immediatly following the initialiser you need a type specifier <br>
 Currently there are 8 types
 ```
 Type              'T'
@@ -30,7 +30,7 @@ An example of a file comment is the following
 // @!G Grouping for the file (will be used once writing to files is done)
 // @!D 21/04/2025 (date)
 ```
-Some of the tags only allow for one entry
+Some of the tags only allow for one entry <br>
 A list of single string tags are the following 
 ```
 Type              'T'
@@ -45,8 +45,8 @@ Misc Info         'I'
 Function argument 'A'
 helper function   'F'
 ```
-At the moment none of the tags have default values if left blank
-I would like to get the group tag to default to default to either the first in the file, the most recent grouping, or the first file type in the file
+At the moment none of the tags have default values if left blank <br>
+I would like to get the group tag to default to default to either the first in the file, the most recent grouping, or the first file type in the file <br>
 At the moment the C program just prints out the documentation to the console like the following blurb (with minor debugging)
 ```
 0 - main.c
@@ -99,5 +99,5 @@ Argument list :
         Arg 1 : char* (string) to look in
         Arg 2 : char* to search for
 ```
-At the moment you can run `docGen.exe <filename> ...` with as many filenames/filepaths as you want (although I haven't tried using filepaths)
+At the moment you can run `docGen.exe <filename> ...` with as many filenames/filepaths as you want (although I haven't tried using filepaths) <br>
 There is support for switches and help info statements, but I havent implemented those yet (probably once I get different output types out such as .md or .html)
