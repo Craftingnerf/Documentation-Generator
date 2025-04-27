@@ -6,6 +6,9 @@ I dont know if it has any vunerabilities or memory leaks <br>
 if it does, open an issue and I'll see if I can find it. <br>
 I made this on Windows and the only debugging I found that was easy enough to use was gdb (I'm using VS Code not VS Community) <br>
 
+## Example of program output
+[exampleLog.txt](log.txt)
+
 ## How to use
 The documentation comments are denoted by first, being a comment (who would have guessed!) <br>
 The primary thing that seperates documentation comments from other comments is the initialiser `@!` in the comment <br>
