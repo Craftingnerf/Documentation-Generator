@@ -178,7 +178,7 @@ short findArgString(char* lookStr, char* findStr) {
 }
 
 void helpPrintout() {
-    printf("Jared Van Meppelen Scheppink - 26/04/2025 - DEVELOPER VERSION\n");
+    printf("Jared Van Meppelen Scheppink - 26/04/2025 - v0.1\n");
     printf("Program usage:\n");
     printf("\tdocGen [switches] fileA.a fileB.b fileC.c ...\n");
     printf("Available switches:\n");
