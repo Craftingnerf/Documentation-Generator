@@ -90,9 +90,9 @@ void printStrList(struct strList *firstPtr) {
     size_t count = 0;
     struct strList *current = firstPtr;
     while (current->next != NULL) {
-        printf("%lld - %s\n", count++, current->str);
+        printf("%lld - %s\n", ++count, current->str);
         current = current->next;
     }
-    printf("%lld - %s\n", count++, current->str);
+    printf("%lld - %s\n", ++count, current->str);
     current = current->next;
 }

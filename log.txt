@@ -1,0 +1,105 @@
+Generating documentation from the following files: 
+1 - ./main.c
+2 - ./main.h
+3 - ./dataList.c
+4 - ./filegen.c
+5 - ./parser.c
+6 - ./reader.c
+7 - ./strList.c
+
+Opening file : ./main.c
+Generating Obsidian files at ./output/ for ./main.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/main.c.md
+Adding data to the file: ./output/Main.md
+Adding data to the file: ./output/parseArgs.md
+Adding data to the file: ./output/argFindr.md
+Adding data to the file: ./output/findArgString.md
+
+Opening file : ./main.h
+Generating Obsidian files at ./output/ for ./main.h
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/main.h.md
+Adding data to the file: ./output/StrList.md
+Adding data to the file: ./output/misc Data.md
+Adding data to the file: ./output/dataList.md
+
+Opening file : ./dataList.c
+Generating Obsidian files at ./output/ for ./dataList.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/dataList.c.md
+Adding data to the file: ./output/destroyDataList.md
+Adding data to the file: ./output/getLastInDataList.md
+Adding data to the file: ./output/addToDataList.md
+Adding data to the file: ./output/genDataElement.md
+Adding data to the file: ./output/pushFrontData.md
+Adding data to the file: ./output/printDataList.md
+Adding data to the file: ./output/printMiscData.md
+
+Opening file : ./filegen.c
+Generating Obsidian files at ./output/ for ./filegen.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/filegen.c.md
+Adding data to the file: ./output/generateObsidianFiles.md
+Adding data to the file: ./output/getFilename.md
+Adding data to the file: ./output/findParentName.md
+Adding data to the file: ./output/toLower.md
+Adding data to the file: ./output/toUpper.md
+
+Opening file : ./parser.c
+Generating Obsidian files at ./output/ for ./parser.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/parser.c.md
+Adding data to the file: ./output/parseFile.md
+Adding data to the file: ./output/lineContainsComment.md
+Adding data to the file: ./output/isDocComment.md
+Adding data to the file: ./output/generateStringFromComment.md
+Adding data to the file: ./output/allocateListString.md
+Adding data to the file: ./output/caseInsensitiveCheck.md
+Adding data to the file: ./output/caseInsensitiveEquals.md
+
+Opening file : ./reader.c
+Generating Obsidian files at ./output/ for ./reader.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/Reader.c.md
+Adding data to the file: ./output/extendBlock.md
+Adding data to the file: ./output/readline.md
+
+Opening file : ./strList.c
+Generating Obsidian files at ./output/ for ./strList.c
+documentation name not found!
+Going to the next entry
+usually happens once per file with how I handled data
+Data dump below (if theres non null values)
+
+Adding data to the file: ./output/strList.c.md
+Adding data to the file: ./output/destroyStrList.md
+Adding data to the file: ./output/getLastInList.md
+Adding data to the file: ./output/addToStrList.md
+Adding data to the file: ./output/genStrElement.md
+Adding data to the file: ./output/printStrList.md
+

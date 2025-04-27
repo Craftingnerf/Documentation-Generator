@@ -8,6 +8,7 @@ char* getFilename(char* name, char* extension, char* path, size_t* newStrSize);
 int appendPath(char** strToAppend, size_t* strSize, char* path);
 int toLower(char* toLowerStr);
 int toUpper(char* toUpperStr);
+char* findParentName(char* parentFile);
 
 // @!T Function
 // @!N generateObsidianFiles
@@ -20,8 +21,7 @@ int toUpper(char* toUpperStr);
 // @!A int | group connection | how to link the file to its group (none, group, link)
 // @!R int | 0 if ran normally, anything else is a different problem
 int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile, int fileConn, int typeConn, int groupConn) {
-    printf("Generating Obsidian files at %s\n", location);
-    printf("Not currently implemented!\n");
+    printf("Generating Obsidian files at %s for %s\n", location, parentFile);
     struct miscData data;
     size_t counter = 0;
     FILE* file;
@@ -31,41 +31,45 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
         char* filename;
         
         if (data.name != NULL) {
-            printf("Generating filename for : %s\n", data.name);
+            // get the filename with path and extension
             filename = getFilename(data.name, "md", location, &filenameSize);
-            // if (appendPath(&filename, &filenameSize, location)) {
-            //     free(filename);
-            //     printf("Something went wrong!\n");
-            //     printf("\n");
-            //     doc = doc->next;
-            //     continue;
-            // }
-            // printf("Filename : %s, size: %lld\nAt : %p\n", filename, filenameSize, filename);
+            // open the filename
             file = fopen(filename, "w");
+            // validate that the file opened
+            if (file == NULL) {
+                printf("ERROR! File not able to be opened!\n\tVERIFY PATH EXISTS!\nGoing to next item\n");
+                // file doesnt exist so we ?shouldnt? need to close it
+                free(filename);
+                doc = doc->next;
+                continue;
+            }
         } else {
-            printf("documentation name not found!\n");
+            // this happens sometimes
+            // I think the first element in the parser.c dataList is kinda logically broken and starts with a NULL'd out element to start
+            // I know it isnt good, but its not enough of an issue right now
+            printf("documentation name not found!\nGoing to the next entry\nusually happens once per file with how I handled data\nData dump below (if theres non null values)\n");
             printMiscData(&(doc->this));
+            printf("\n");
             doc = doc->next;
             continue;
         }
         
-        printf("Adding data for the file\n");
-        file = fopen(filename, "w");
-        printf("\tparent file\n");
+        printf("Adding data to the file: %s\n", filename);
+        // printf("\tparent file\n");
         if (parentFile != NULL) {
             switch (fileConn) {
                 case 0:
-                    fprintf(file, "Found in file : %s\n", parentFile);
+                    fprintf(file, "Found in file : %s\n", findParentName(parentFile));
                     break;
                 case 1:
-                    fprintf(file, "Found in file : #%s\n", parentFile);
+                    fprintf(file, "Found in file : #%s\n", findParentName(parentFile));
                     break;
                 case 2:
-                    fprintf(file, "Found in file : [[%s]]\n", parentFile);
+                    fprintf(file, "Found in file : [[%s]]\n", findParentName(parentFile));
                     break;
             }
         }
-        printf("\tdoc type\n");
+        // printf("\tdoc type\n");
         if (data.type != NULL) {
             toLower(data.type);
             switch (typeConn) {
@@ -80,7 +84,7 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
                     break;
             }
         }
-        printf("\tdoc group\n");
+        // printf("\tdoc group\n");
         if (data.group != NULL) {
             toLower(data.group);
             switch (groupConn) {
@@ -96,11 +100,11 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
             }
             
         }
-        printf("\tdoc date\n");
+        // printf("\tdoc date\n");
         if (data.date != NULL) {
             fprintf(file, "Date : %s\n", data.date);
         }
-        printf("\tdoc info list\n");
+        // printf("\tdoc info list\n");
         if (data.miscList != NULL) {
             fprintf(file, "Misc Info :\n");
             counter = 0;
@@ -110,7 +114,7 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
                 data.miscList = data.miscList->next;
             }
         }
-        printf("\targument list\n");
+        // printf("\targument list\n");
         if (data.argList != NULL) {
             fprintf(file, "Argument list :\n");
             counter = 0;
@@ -120,7 +124,7 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
                 data.argList = data.argList->next;
             }
         }
-        printf("\thelper functions\n");
+        // printf("\thelper functions\n");
         if (data.helprList != NULL) {
             fprintf(file, "Helper functions :\n");
             counter = 0;
@@ -130,11 +134,11 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
                 data.helprList = data.helprList->next;
             }
         }
-        printf("Closing file\n");
+        // close the file
         fclose(file);
-        printf("freeing filename\n");
+        // free up the RAM for the filename
         free(filename);
-        printf("going to next item\n");
+        // iterate to the next element
         doc = doc->next;
     }
     return 0;
@@ -190,6 +194,26 @@ char* getFilename(char* name, char* extension, char* path, size_t* newStrSize) {
     *newStrSize = sizeOfNewStr;
     return str;
 }
+
+
+// @!T Function
+// @!N findParentName
+// @!G fileGenerator
+// @!A char* | pointer to the start of the parent file string
+// @!R char* | pointer to the first character or the first / in the parent string
+// @!I Takes the parentfile string and strips it of its path in windows or linux (/'s or \'s)
+char* findParentName(char* parentFile) {
+    char* filePtr = parentFile;
+    // iterate to the last element in the string
+    for (; *filePtr != '\0'; filePtr++);
+    // loop backward through the string until we find a '/' or '\' ('\\' due to special characters)
+    for (; (*filePtr != '/' && *filePtr != '\\') && parentFile < filePtr; filePtr--);
+    // if we found a '/' or '\' we need to iterate the pointer one back
+    if (*filePtr == '/' || *filePtr == '\\') { filePtr++; }
+    // return the pointer to the character to start from
+    return filePtr;
+}
+
 
 
 // @!T Function
