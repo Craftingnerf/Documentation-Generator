@@ -10,6 +10,7 @@ struct dataList* getLastInDataList(struct dataList *firstPtr);
 struct dataList* addToDataList(struct dataList *firstPtr, struct dataList* element);
 struct dataList* genDataElement();
 struct dataList* pushFrontData(struct dataList* first, struct dataList* element);
+void printMiscData(struct miscData* misc);
 
 // @!T Function
 // @!N destroyDataList
@@ -163,5 +164,55 @@ void printDataList(struct dataList* front) {
         }
         printf("\n");
         front = front->next;
+    }
+}
+
+// @!T function
+// @!N printMiscData
+// @!I Prints out the information from a miscData struct
+// @!G Helper/dataList
+// @!A miscData* (data to print)
+// @!R void
+void printMiscData(struct miscData* misc) {
+    struct miscData data = *misc;
+    size_t counter = 0;
+    if (data.name != NULL) {
+        printf("Name : %s\n", data.name);
+    }
+    if (data.type != NULL) {
+        printf("Type : %s\n", data.type);
+    }
+    if (data.group != NULL) {
+        printf("Group : %s\n", data.group);
+    }
+    if (data.date != NULL) {
+        printf("Date : %s\n", data.date);
+    }
+    if (data.miscList != NULL) {
+        printf("Misc Info :\n");
+        counter = 0;
+        while (data.miscList != NULL) {
+            counter++;
+            printf("\t- %s\n", data.miscList->str);
+            data.miscList = data.miscList->next;
+        }
+    }
+    if (data.argList != NULL) {
+        printf("Argument list :\n");
+        counter = 0;
+        while (data.argList != NULL) {
+            counter++;
+            printf("\tArg %lld : %s\n",counter, data.argList->str);
+            data.argList = data.argList->next;
+        }
+    }
+    if (data.helprList != NULL) {
+        printf("Helper functions :\n");
+        counter = 0;
+        while (data.helprList != NULL) {
+            counter++;
+            printf("\tFunction %lld : %s\n",counter, data.helprList->str);
+            data.helprList = data.helprList->next;
+        }
     }
 }

@@ -65,7 +65,7 @@ struct strList* addToStrList(struct strList *firstPtr, struct strList* element) 
 }
 
 // @!T function
-// @!N genStrEleemnt
+// @!N genStrElement
 // @!G Parser
 // @!I generates a new strList element
 // @!G Helper/strList

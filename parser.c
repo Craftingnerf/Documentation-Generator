@@ -12,6 +12,8 @@ int isDocComment(char* line, size_t lineLen, char** tagTypePtr);
 struct dataList* parseFile(struct strList* fileList);
 size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size);
 int allocateListString(char** string, size_t* size, char* startPtr);
+int caseInsensitiveCheck(char* stringToCheck, char* string);
+int caseInsensitiveEquals(char* strA, char* strB);
 
 // @!T Function
 // @!N parseFile
@@ -64,6 +66,9 @@ struct dataList* parseFile(struct strList* fileList) {
                 mutliLineComment = 0;
             }
             size_t strSize = LineLength;
+            if (*tagTypePtr >= 'a' && *tagTypePtr < 'z' && caseInsensitivity) {
+                *tagTypePtr = (*tagTypePtr - 'a') + 'A';
+            }
             switch (*tagTypePtr) {
                 case TypeTag:
                     // reset the size of the string
@@ -231,6 +236,7 @@ struct dataList* parseFile(struct strList* fileList) {
                     break;
             }
         }
+        
         // need this and the assignment at the top of the loop for last line in file to be read
         if (strLen == EOF) {
             break;
@@ -239,13 +245,9 @@ struct dataList* parseFile(struct strList* fileList) {
     // free the line ptr
     // line size ptr
     // and close the file
-    free(line); /* This is a slash-star comment with code before it! */
-    free(lineSize); // this is a doubleshash comment with code before it!
+    free(line);
+    free(lineSize);
     fclose(filePtr);
-    /*  This is a multi line comment
-     *  If my code works well it should pick this up!
-     *  IF it works well that is...
-     */
     return startPtr;
 }
 
@@ -273,11 +275,9 @@ int lineContainsComment
         if (*linePtr == '/') {
             // do / checks
             if (lastSlashFlag && !multilineFlag) {
-                // printf("double slash comment | ");
                 return 1;
             } else if (multilineFlag && multilineEndFlag) {
                 multilineFlag = 0;
-                // printf("multiline end | ");
                 return 1;
             } else {
                 lastSlashFlag = 1;
@@ -285,8 +285,6 @@ int lineContainsComment
         } else if (*linePtr == '*') {
             // do * checks
             if (lastSlashFlag && !multilineFlag) {
-                // need to check for an end still
-                // printf("multiline begin | ");
                 multilineFlag = 1;
             } else if (multilineFlag) {
                 multilineEndFlag = 1;
@@ -379,4 +377,55 @@ int allocateListString(char** string, size_t* size, char* startPtr) {
     // generate the string (should size the str)
     generateStringFromComment(startPtr, string, size);
     return 0;
+}
+
+// @!T Function
+// @!N caseInsensitiveCheck
+// @!G Parser
+// @!A char* string to check
+// @!A char* string to look for
+// @!R boolean for if the str is contained in the check
+int caseInsensitiveCheck(char* stringToCheck, char* string) {
+    char* strStartPos = string;
+    char ch = *stringToCheck;
+    char strCh = *string;
+    for (; *stringToCheck != '\0'; stringToCheck++, strCh = *stringToCheck) {
+        if (*string == '\0') {
+            return 1;
+        }
+        if (ch > 'A') {
+            ch = (ch - 'A') + 'a';    
+        }
+        if (strCh > 'A') {
+            strCh = (ch -'A') + 'a';
+        }
+        if (ch == strCh) {
+            string++;
+            strCh = *string;
+        } else {
+            string = strStartPos;
+        }
+    }
+    return 0;
+}
+
+// @!T Function
+// @!N caseInsensitiveEquals
+// @!G Parser
+// @!A char* string A
+// @!A char* string B
+// @!R boolean for if the strs are EQUAL (in a case insensitive way)
+// @!i test case for case insensitivity
+int caseInsensitiveEquals(char* strA, char* strB) {
+    char aChar;
+    char bChar;
+    for (aChar = *strA, bChar = *strB; aChar != '\0' && bChar != '\0'; strA++, strB++, aChar = *strA, bChar = *strB) {
+        if (aChar >= 'A' && bChar <= 'Z') {
+            aChar = (aChar - 'A') + 'a';
+        }
+        if (bChar >= 'A' && bChar <= 'Z') {
+            bChar = (bChar - 'A') + 'a';
+        }
+    };
+    return aChar == bChar;
 }

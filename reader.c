@@ -10,6 +10,14 @@
 
 void clearStream(char* buffer, size_t len);
 
+
+// @!T Function
+// @!N extendBlock
+// @!G Reader
+// @!A char** | pointer to the string/buffer to resize
+// @!A size_t* | pointer to the size of the buffer
+// @!A size_t | size it will extend the buffer by
+// @!R void
 void extendBlock(char** buffer, size_t* currentSize, size_t extendBy) {
     // validating data passed
     if (!buffer || !*buffer || !currentSize)  {

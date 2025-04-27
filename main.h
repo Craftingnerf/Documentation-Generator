@@ -8,7 +8,10 @@
 
     #define TagInitiator "@!"
     #define TagTerminator "!@"
-
+    // keep the tags capitalized!
+    // if they arent capitalized then case insensitivity will need to be turned off
+    // set the following define to 0 if case insensitivity isnt needed
+    #define caseInsensitivity 1
     #define TypeTag     'T'
     #define NameTag     'N'
     #define InfoTag     'I'
@@ -49,6 +52,7 @@
     // @!A Str list for info
     // @!A Str list for helper functions
     // @!A Str list for arguments
+    // @!F printMiscData
     struct miscData { // has all data elements
 
         char* type; // type (??)
@@ -93,6 +97,7 @@
     struct dataList* genDataElement();
     struct dataList* pushFrontData(struct dataList* first, struct dataList* element);
     void printDataList(struct dataList* front);
+    void printMiscData(struct miscData* misc);
 
     // filesystem functions
     void make_directory(const char* name);
@@ -105,5 +110,11 @@
 
     // parser functions
     struct dataList* parseFile(struct strList* fileList);
+    // fileGenFunctions
+    int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile, int fileConn, int typeConn, int groupConn);
+    // declarations
+    #define OB_NO_CONN 0
+    #define OB_BY_GROUP 1
+    #define OB_BY_LINK 2
 #endif
 
