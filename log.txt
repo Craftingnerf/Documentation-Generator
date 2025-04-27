@@ -13,7 +13,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/main.c.md
 Adding data to the file: ./output/Main.md
 Adding data to the file: ./output/parseArgs.md
@@ -26,7 +26,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/main.h.md
 Adding data to the file: ./output/StrList.md
 Adding data to the file: ./output/misc Data.md
@@ -38,7 +38,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/dataList.c.md
 Adding data to the file: ./output/destroyDataList.md
 Adding data to the file: ./output/getLastInDataList.md
@@ -54,7 +54,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/filegen.c.md
 Adding data to the file: ./output/generateObsidianFiles.md
 Adding data to the file: ./output/getFilename.md
@@ -68,7 +68,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/parser.c.md
 Adding data to the file: ./output/parseFile.md
 Adding data to the file: ./output/lineContainsComment.md
@@ -84,7 +84,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/Reader.c.md
 Adding data to the file: ./output/extendBlock.md
 Adding data to the file: ./output/readline.md
@@ -95,7 +95,7 @@ documentation name not found!
 Going to the next entry
 usually happens once per file with how I handled data
 Data dump below (if theres non null values)
-
+Data dump completed. Moving on.
 Adding data to the file: ./output/strList.c.md
 Adding data to the file: ./output/destroyStrList.md
 Adding data to the file: ./output/getLastInList.md
