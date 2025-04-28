@@ -1,0 +1,18 @@
+// Documentation comments
+
+// -- general --
+// @!T Type (Function, Struct, File, Misc) (single, documentation starter)
+// @!N Name (single)
+// @!I Misc info (list)
+// @!G grouping (single)
+
+
+// -- function specific --
+// @!A Arguments (list)
+// @!R Return type (single)
+
+// -- struct specific --
+// @!F helper functions (list)
+
+// -- file specific --
+// @!D Date (single)
