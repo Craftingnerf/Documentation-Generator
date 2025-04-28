@@ -35,7 +35,8 @@ int main(int argc, char** argv) {
 
     struct strList* fileIterator = files;
     if (!fileIterator) {
-        printf("No files added!");
+        printf("No files added!\n\n");
+        helpPrintout();
         // clean up memory before exiting
         destroyStrList(files);
         return 0;
