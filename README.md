@@ -2,18 +2,27 @@
 
 A C program that I made to generate documentation from code comments <br>
 Supports mutli-line and single-line comments for documentation generation <br>
-I dont know if it has any vunerabilities or memory leaks <br>
-if it does, open an issue and I'll see if I can find it. <br>
+I dont know if it has any vunerabilities or memory leaks, if it does, open an issue and I'll see if I can find it and fix it. <br>
 I made this on Windows and the only debugging I found that was easy enough to use was gdb (I'm using VS Code not VS Community) <br>
 
 ## Example of program output
 [exampleLog.txt](log.txt)
-
 ## How to use
-The documentation comments are denoted by first, being a comment (who would have guessed!) <br>
-The primary thing that seperates documentation comments from other comments is the initialiser `@!` in the comment <br>
+At the moment you can run with as many filenames/filepaths as you want and it will spit out files in the current directory <br>
+```
+docGen.exe <filename> ...
+```
+However, I'd reccomend adding a output path with a premade folder, as the program will not generate files if a folder doesn't exist (I dont have it creating folders) <br>
+```
+docGen.exe -o ./folder/ <filename> ... 
+```
+<details open>
+<summary>Programming details</summary>
+<br>
+The documentation comments are denoted by first, being a comment (who would have guessed!) and then having a tag initializer `@!` in the comment <br>
 Immediatly following the initialiser you need a type specifier <br>
-Currently there are 8 types
+Currently there are 8 type specifiers <br>
+
 ```
 Type              'T'
 Name              'N'
@@ -21,16 +30,19 @@ Misc Info         'I'
 Group             'G'
 Function argument 'A'
 Return type       'R'
-helper function   'F'
+Helper function   'F'
 Date              'D'
 ```
 For each section of comments you need a type tag <br>
-An example of a file comment is the following
+a complete image overview of all the tags below <br>
+![alt text](images/howToDocument.png) <br>
+
+An example of a file comment is the following <br>
 ```
 // @!T File
 // @!N main.c
 // @!I Some misc information about the file
-// @!G Grouping for the file (will be used once writing to files is done)
+// @!G Grouping for the file
 // @!D 21/04/2025 (date)
 ```
 Some of the tags only allow for one entry <br>
@@ -49,58 +61,15 @@ Function argument 'A'
 helper function   'F'
 ```
 At the moment none of the tags have default values if left blank <br>
-I would like to get the group tag to default to default to either the first in the file, the most recent grouping, or the first file type in the file <br>
-At the moment the C program just prints out the documentation to the console like the following blurb (with minor debugging)
-```
-0 - main.c
+<br>
+I've implemented .md file generation and here's a photo of the result from this repository's files <br>
+![colour coded node graph in Obsidian](images/obsidianGraph.png)
+![Minimally formatted documentation of a struct](images/mdFileExample.png) <br>
+</details>
+<br>
 
-Opening file : main.c
+## Code modification and redistrabution
 
-Name : main.c
-Type : File
-Group : Main
-Date : 21/04/2025
-Misc Info :
-        - main program file
-
-Name : Main
-Type : Main Function
-Group : Main
-Misc Info :
-        - parses arguments
-        - sends files to be parsed in parser.c
-        - prints out the files once parsed
-        - should clean up aswell
-
-Name : parseArgs
-Type : Function
-Group : Main
-Misc Info :
-        - Function for parsing arguments
-        - Responsible for getting switches and file names/paths
-Argument list :
-        Arg 1 : int argc (amount of arguments)
-        Arg 2 : char** argv (2D array of chars for each word in the command)
-
-Name : argFindr
-Type : Function
-Group : Main
-Misc Info :
-        - Function to find a single char in a string
-        - Created for the argParser function
-Argument list :
-        Arg 1 : 'string' to search
-        Arg 2 : character to look for
-
-Name : findArgString
-Type : Function
-Group : Main
-Misc Info :
-        - Finds a string within another string
-        - Created for the argParser function
-Argument list :
-        Arg 1 : char* (string) to look in
-        Arg 2 : char* to search for
-```
-At the moment you can run `docGen.exe <filename> ...` with as many filenames/filepaths as you want (although I haven't tried using filepaths) <br>
-There is support for switches and help info statements, but I havent implemented those yet (probably once I get different output types out such as .md or .html)
+Anyone can download and use the documentation generator <br>
+Feel free to modify the code. However, I'd like my name to stay on the help printout <br>
+If you make a considerable change, feel free to add your name (it would be kinda funny to see a printout of a dozen different peoples names), I'd just like to keep my name on it somewhere visible <br>
