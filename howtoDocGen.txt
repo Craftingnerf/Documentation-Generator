@@ -6,13 +6,12 @@
 // @!I Misc info (list)
 // @!G grouping (single)
 
-
-// -- function specific --
+// -- function oriented --
 // @!A Arguments (list)
 // @!R Return type (single)
 
-// -- struct specific --
+// -- struct oriented --
 // @!F helper functions (list)
 
-// -- file specific --
+// -- file oriented --
 // @!D Date (single)
