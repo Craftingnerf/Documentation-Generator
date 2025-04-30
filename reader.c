@@ -24,7 +24,7 @@ void extendBlock(char** buffer, usize_t* currentSize, usize_t extendBy) {
         printf("Something was null in the extend block call!\n");
         return;
     }
-    if (SIZE_MAX - *currentSize < extendBy) {
+    if (USIZE_MAX - *currentSize < extendBy) {
         printf("Attempting to extend by too much!\n");
         return;
     }

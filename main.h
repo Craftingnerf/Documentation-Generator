@@ -25,7 +25,8 @@
     #include <stdlib.h>
     
     #define usize_t unsigned long long
-
+    #define USIZE_MAX 0xFFFFFFFFFFFFFFFF
+    
     // @!T Struct
     // @!N StrList
     // @!G header
