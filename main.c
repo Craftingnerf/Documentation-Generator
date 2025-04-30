@@ -60,6 +60,10 @@ int main(int argc, char** argv) {
     }
     // clean up memory
     destroyStrList(files);
+    
+    printf("Documentation generated!\n");
+    printf("Have fun programming! :D\n");
+    
     return 0;
 }
 
@@ -113,7 +117,18 @@ int parseArgs(int argc, char** argv) {
         }
         else {
             // assuming its a file to be parsed
-            struct strList* newFile = genStrElement(argv[i]);
+            // need to allocate a new string for it
+            usize_t sizeOfStr = 0;
+            // get the size
+            for (sizeOfStr = 0; *(argv[i]+sizeOfStr) != '\0'; sizeOfStr++);
+            // allocate the string + 1 for the null terminator
+            char* fname = malloc((sizeOfStr+1) * sizeof(char));
+            // go through and copy the string
+            for (usize_t k = 0; k < sizeOfStr; k++) { *(fname+k) = *(argv[i]+k); }
+            // set the null terminator at the end
+            *(fname+sizeOfStr) = '\0';
+
+            struct strList* newFile = genStrElement(fname);
             if (files == NULL) {
                 files = newFile;
             } else {

@@ -33,12 +33,14 @@ void extendBlock(char** buffer, usize_t* currentSize, usize_t extendBy) {
     // error checking
     if (bufferTmp == NULL) {
         puts("Got an error in realloc!\nreader.c");
+        free(*buffer);
+        *buffer = NULL;
         return;
     }
-    
+
     *buffer = bufferTmp;
     *currentSize = newSize;
-    
+
 }
 
 // @!T function
@@ -70,17 +72,15 @@ int getLine(FILE* file, char** buffer, usize_t* bufferSize) {
         // if the buffer is full (or almost full)
         // extend it (and update the values)
         // this is why pointers are great :)
-        if ((*bufferSize)-2 <= charsRead) {
+        if (charsRead >= (*bufferSize)-1) {
             // extend the buffer
-            // printf("Extending the buffer!\n");
             extendBlock(buffer, bufferSize, CNExtendSize);
-            // printf("Buffer extended?\n");
         }
         // set the character in the buffer to the new character
         (*buffer)[charsRead++] = charRead;
         // update the next character with a null terminator
         // could nove this just outside with the same effect, but this is safer I think
-        (*buffer)[charsRead] = '\0';
+        // (*buffer)[charsRead] = '\0';
         
     }
     // if we read a newline immediatly we return an empty string
@@ -88,8 +88,10 @@ int getLine(FILE* file, char** buffer, usize_t* bufferSize) {
         // go to the string and set the first character to '\0'
         // this is equal to "*buffer[0] = '\0';"
         **buffer = '\0';
+    }else {
+        (*buffer)[charsRead] = '\0';
     }
-    // (*buffer)[charsRead] = '\0';
+    
     // if we read the EOF return EOF
     if (charRead == EOF) {
         return EOF;

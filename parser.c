@@ -15,6 +15,7 @@ int allocateListString(char** string, usize_t* size, char* startPtr);
 int caseInsensitiveCheck(char* stringToCheck, char* string);
 int caseInsensitiveEquals(char* strA, char* strB);
 
+
 // @!T Function
 // @!N parseFile
 // @!G Parser
@@ -23,19 +24,19 @@ int caseInsensitiveEquals(char* strA, char* strB);
 // @!I Reads through a file and generates documentation in a struct
 // @!I heavy lifter and current headache for this program :D
 struct dataList* parseFile(struct strList* fileList) {
+    
+
     FILE* filePtr = fopen(fileList->str, "r");
     if (filePtr == NULL) {
         printf("Error opening file");
         return NULL;
     }
-    usize_t* lineSize;
-    lineSize = malloc(1*sizeof(usize_t));
-    *lineSize = LineLength;
-    char** line;
-    line = (char**)malloc(1*sizeof(char*));
+    usize_t lineSize = 0;
     
+    lineSize = LineLength;
+    char* line;
+    line = malloc((lineSize)*sizeof(char));
 
-    *line = (char*)malloc((*lineSize)*sizeof(char));
     if (!line) {
         printf("Error allocating memory for the line!");
         fclose(filePtr);
@@ -50,6 +51,7 @@ struct dataList* parseFile(struct strList* fileList) {
     struct strList* newItem;
     struct dataList* listPtr = genDataElement();
     struct dataList* startPtr = listPtr;
+    
     while (1) {
         /* would put this in the while loop. 
          * However, then I cant read the last line of the file 
@@ -57,9 +59,9 @@ struct dataList* parseFile(struct strList* fileList) {
          * Need to have the assignment in the while loop and use a break at the end of the loop
          */ 
         lineNo++;
-        strLen = getLine(filePtr, line, lineSize);
+        strLen = getLine(filePtr, &line, &lineSize);
         // do what we need to do with the line
-        if ((lastCommentReturn = lineContainsComment(*line, strLen, mutliLineComment)) && isDocComment(*line, strLen, &tagTypePtr)) {
+        if ((lastCommentReturn = lineContainsComment(line, strLen, mutliLineComment)) && isDocComment(line, strLen, &tagTypePtr)) {
             if (lastCommentReturn > 1) {
                 mutliLineComment = 1;
             } else if (mutliLineComment) {
@@ -82,7 +84,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -98,7 +99,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -117,7 +117,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -142,7 +141,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -160,8 +158,7 @@ struct dataList* parseFile(struct strList* fileList) {
                         // destroy everything and return
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
-                        free(line);
-                        free(lineSize); 
+                        free(line); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -186,7 +183,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -204,7 +200,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -229,7 +224,6 @@ struct dataList* parseFile(struct strList* fileList) {
                         printf("Error while allocating string for documentation!");
                         destroyDataList(listPtr);
                         free(line);
-                        free(lineSize); 
                         fclose(filePtr);
                         return NULL;
                     }
@@ -242,12 +236,13 @@ struct dataList* parseFile(struct strList* fileList) {
             break;
         }
     }
-    // free the line ptr
+    // free the line ptr and its pointer to a pointer
     // line size ptr
     // and close the file
     free(line);
-    free(lineSize);
     fclose(filePtr);
+
+    printf("%s parsed!\n", fileList->str);
     return startPtr;
 }
 
@@ -370,6 +365,7 @@ usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* si
 // @!I Allocates space for the string location given to us.
 // @!I Fills in the string at the specified location
 int allocateListString(char** string, usize_t* size, char* startPtr) {
+    free(*string); // if it already exists, free the old one and update it with the new value
     *string = malloc((*size)*sizeof(char));
     if (*string == NULL) {
         return 1;

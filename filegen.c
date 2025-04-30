@@ -47,7 +47,7 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
             // this happens sometimes
             // I think the first element in the parser.c dataList is kinda logically broken and starts with a NULL'd out element to start
             // I know it isnt good, but its not enough of an issue right now
-            printf("documentation name not found!\nGoing to the next entry\nusually happens once per file with how I handled data\nData dump below (if theres non null values)\n");
+            printf("documentation name not found! (dumping data)\n");
             printMiscData(&(doc->this));
             printf("Data dump completed. Moving on.\n\n");
             doc = doc->next;

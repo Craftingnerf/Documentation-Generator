@@ -20,12 +20,13 @@ void destroyStrList(struct strList *firstPtr) {
     }
     struct strList *current = firstPtr;
     struct strList *last;
-    
     while (current->next != NULL) {
         last = current;
         current = current->next;
+        free(last->str);
         free(last);
     }
+    free(current->str);
     free(current);
 }
 
