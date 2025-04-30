@@ -23,6 +23,8 @@
 
     #include <stdio.h>
     #include <stdlib.h>
+    
+    #define usize_t unsigned long long
 
     // @!T Struct
     // @!N StrList
@@ -103,10 +105,10 @@
     void make_directory(const char* name);
 
     // file reader functions
-    int getLine(FILE* file, char** buffer, size_t* bufferSize);
+    int getLine(FILE* file, char** buffer, usize_t* bufferSize);
     // normally internal function
     // using it in parser.c
-    void extendBlock(char** buffer, size_t* currentSize, size_t extendBy);
+    void extendBlock(char** buffer, usize_t* currentSize, usize_t extendBy);
 
     // parser functions
     struct dataList* parseFile(struct strList* fileList);

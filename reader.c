@@ -8,17 +8,17 @@
 #define CNBlockSize 128
 #define CNExtendSize 64
 
-void clearStream(char* buffer, size_t len);
+void clearStream(char* buffer, usize_t len);
 
 
 // @!T Function
 // @!N extendBlock
 // @!G Reader
 // @!A char** | pointer to the string/buffer to resize
-// @!A size_t* | pointer to the size of the buffer
-// @!A size_t | size it will extend the buffer by
+// @!A usize_t* | pointer to the size of the buffer
+// @!A usize_t | size it will extend the buffer by
 // @!R void
-void extendBlock(char** buffer, size_t* currentSize, size_t extendBy) {
+void extendBlock(char** buffer, usize_t* currentSize, usize_t extendBy) {
     // validating data passed
     if (!buffer || !*buffer || !currentSize)  {
         printf("Something was null in the extend block call!\n");
@@ -28,7 +28,7 @@ void extendBlock(char** buffer, size_t* currentSize, size_t extendBy) {
         printf("Attempting to extend by too much!\n");
         return;
     }
-    size_t newSize = ((*currentSize)+extendBy)*sizeof(char);
+    usize_t newSize = ((*currentSize)+extendBy)*sizeof(char);
     char* bufferTmp = realloc((*buffer), newSize);
     // error checking
     if (bufferTmp == NULL) {
@@ -47,9 +47,9 @@ void extendBlock(char** buffer, size_t* currentSize, size_t extendBy) {
 // @!G Reader
 // @!A file (fileptr)
 // @!A buffer (char**)
-// @!A bufferLength (size_t*)
+// @!A bufferLength (usize_t*)
 // @!R int (-1 (EOF), 0 (Success)
-int getLine(FILE* file, char** buffer, size_t* bufferSize) {
+int getLine(FILE* file, char** buffer, usize_t* bufferSize) {
     // if the file is NULL return end of file (it doesnt exist)
     if (file == NULL) return EOF;
     // comment of shame
@@ -59,7 +59,7 @@ int getLine(FILE* file, char** buffer, size_t* bufferSize) {
 
     // variable initialization
     int charRead = 0;
-    size_t charsRead = 0;
+    usize_t charsRead = 0;
 
     // readloop
     // if its a newline, string terminator, or end of file ...

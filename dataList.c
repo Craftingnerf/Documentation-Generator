@@ -119,7 +119,7 @@ struct dataList* pushFrontData(struct dataList* first, struct dataList* element)
 // @!R void
 void printDataList(struct dataList* front) {
     struct miscData data;
-    size_t counter = 0;
+    usize_t counter = 0;
     while (front != NULL) {
         data = front->this;
 
@@ -175,7 +175,7 @@ void printDataList(struct dataList* front) {
 // @!R void
 void printMiscData(struct miscData* misc) {
     struct miscData data = *misc;
-    size_t counter = 0;
+    usize_t counter = 0;
     if (data.name != NULL) {
         printf("Name : %s\n", data.name);
     }

@@ -7,11 +7,11 @@
 
 #define LineLength 64
 #define CNExtendSize 64
-int lineContainsComment(char* line, size_t lineLen, int multilineFlag);
-int isDocComment(char* line, size_t lineLen, char** tagTypePtr);
+int lineContainsComment(char* line, usize_t lineLen, int multilineFlag);
+int isDocComment(char* line, usize_t lineLen, char** tagTypePtr);
 struct dataList* parseFile(struct strList* fileList);
-size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size);
-int allocateListString(char** string, size_t* size, char* startPtr);
+usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* size);
+int allocateListString(char** string, usize_t* size, char* startPtr);
 int caseInsensitiveCheck(char* stringToCheck, char* string);
 int caseInsensitiveEquals(char* strA, char* strB);
 
@@ -28,8 +28,8 @@ struct dataList* parseFile(struct strList* fileList) {
         printf("Error opening file");
         return NULL;
     }
-    size_t* lineSize;
-    lineSize = malloc(1*sizeof(size_t));
+    usize_t* lineSize;
+    lineSize = malloc(1*sizeof(usize_t));
     *lineSize = LineLength;
     char** line;
     line = (char**)malloc(1*sizeof(char*));
@@ -41,7 +41,7 @@ struct dataList* parseFile(struct strList* fileList) {
         fclose(filePtr);
         return NULL;
     }
-    size_t lineNo = 0;
+    usize_t lineNo = 0;
     int strLen = 0;
     int mutliLineComment = 0;
     int lastCommentReturn = 0;
@@ -65,7 +65,7 @@ struct dataList* parseFile(struct strList* fileList) {
             } else if (mutliLineComment) {
                 mutliLineComment = 0;
             }
-            size_t strSize = LineLength;
+            usize_t strSize = LineLength;
             if (*tagTypePtr >= 'a' && *tagTypePtr < 'z' && caseInsensitivity) {
                 *tagTypePtr = (*tagTypePtr - 'a') + 'A';
             }
@@ -257,10 +257,10 @@ struct dataList* parseFile(struct strList* fileList) {
 // @!I figures out if the current line contains a comment
 // @!R int (1 or 0) (treat as bool)
 // @!A char* | current line
-// @!A size_t | line length
+// @!A usize_t | line length
 // @!A int | flag for if the last line was a multiline comment with no terminator
 int lineContainsComment
-    (char* line, size_t lineLen, int multilineFlag) {
+    (char* line, usize_t lineLen, int multilineFlag) {
     if (lineLen < 2) {
         return 0; // cant have a comment with less than two characters
     }
@@ -306,12 +306,12 @@ int lineContainsComment
 // @!N isDocComment
 // @!G Parser
 // @!A char* | current line
-// @!A size_t | length of the line
+// @!A usize_t | length of the line
 // @!A tagTypePointer | pointer to the tagType pointer to be used for later
 // @!R int (1 or 0) treat as bool
 // @!I Looks for if the current comment has a documentation initialisor
 // @!I changes the char* of the tagTypePtr passed in to the char after the tag is found (the type)
-int isDocComment(char* line, size_t lineLen, char** tagTypePtr) {
+int isDocComment(char* line, usize_t lineLen, char** tagTypePtr) {
     char* tagStr = TagInitiator;
     char* tagStrPtr = tagStr;
     for (int i = 0; i < lineLen && *(line+i) != '\0'; i++) {
@@ -334,11 +334,11 @@ int isDocComment(char* line, size_t lineLen, char** tagTypePtr) {
 // @!G Parser
 // @!A char* | current line
 // @!A char** | pointer to string to change
-// @!A size_t* | size of the string we change
-// @!R size_t | characters added
+// @!A usize_t* | size of the string we change
+// @!R usize_t | characters added
 // @!I Loops through the current line (from the starting point given)
 // @!I It adds each character to the string and if there isnt enough room, we extend the string by allocating more characters to the array
-size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size) {
+usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* size) {
     char ch;
     int charsRead = 0;
     int count = 0;
@@ -364,12 +364,12 @@ size_t generateStringFromComment(char* lineStartPos, char** string, size_t* size
 // @!N allocateListString
 // @!G Parser
 // @!A char** | pointer to string to allocate and fill
-// @!A size_t* | pointer to the size of the string
+// @!A usize_t* | pointer to the size of the string
 // @!A char* | fill starting point
 // @!R int | if its a non-zero return we throw a tantrum :D
 // @!I Allocates space for the string location given to us.
 // @!I Fills in the string at the specified location
-int allocateListString(char** string, size_t* size, char* startPtr) {
+int allocateListString(char** string, usize_t* size, char* startPtr) {
     *string = malloc((*size)*sizeof(char));
     if (*string == NULL) {
         return 1;

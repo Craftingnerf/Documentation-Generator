@@ -87,7 +87,7 @@ struct strList* genStrElement(char* name) {
 // @!A firstPtr (struct strList*) (First element in the list)
 // @!R void
 void printStrList(struct strList *firstPtr) {
-    size_t count = 0;
+    usize_t count = 0;
     struct strList *current = firstPtr;
     while (current->next != NULL) {
         printf("%lld - %s\n", ++count, current->str);

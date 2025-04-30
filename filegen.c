@@ -4,8 +4,8 @@
 // @!I file with functions for generating all the files and folders (maybe) for the documentation
 // @!D 26/04/2025
 #include "main.h"
-char* getFilename(char* name, char* extension, char* path, size_t* newStrSize);
-int appendPath(char** strToAppend, size_t* strSize, char* path);
+char* getFilename(char* name, char* extension, char* path, usize_t* newStrSize);
+int appendPath(char** strToAppend, usize_t* strSize, char* path);
 int toLower(char* toLowerStr);
 int toUpper(char* toUpperStr);
 char* findParentName(char* parentFile);
@@ -23,11 +23,11 @@ char* findParentName(char* parentFile);
 int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile, int fileConn, int typeConn, int groupConn) {
     printf("Generating Obsidian files at %s for %s\n", location, parentFile);
     struct miscData data;
-    size_t counter = 0;
+    usize_t counter = 0;
     FILE* file;
     while (doc != NULL) {
         data = doc->this;
-        size_t filenameSize = 0;
+        usize_t filenameSize = 0;
         char* filename;
         
         if (data.name != NULL) {
@@ -149,23 +149,23 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
 // @!G fileGenerator
 // @!A char* | name of the file
 // @!A char* | extension to add to the file
-// @!A size_t* | ptr for the new strings length
+// @!A usize_t* | ptr for the new strings length
 // @!R char* | filename string
-char* getFilename(char* name, char* extension, char* path, size_t* newStrSize) {
-    size_t nameLen;
-    size_t extensionLen;
-    size_t pathLen;
+char* getFilename(char* name, char* extension, char* path, usize_t* newStrSize) {
+    usize_t nameLen;
+    usize_t extensionLen;
+    usize_t pathLen;
     // find the lengths of both the name string and the extension string
     for (pathLen = 0; *(path+pathLen) != '\0'; pathLen++);
     for (nameLen = 0; *(name+nameLen) != '\0'; nameLen++);
     for (extensionLen = 0; *(extension+extensionLen) != '\0'; extensionLen++);
 
-    size_t sizeOfNewStr = (pathLen+nameLen+extensionLen+2); // need the '\0' and '.' still :) (why we add 2 here)
+    usize_t sizeOfNewStr = (pathLen+nameLen+extensionLen+2); // need the '\0' and '.' still :) (why we add 2 here)
     // allocate new string (needs to be free'd later);
     char* str = malloc(sizeOfNewStr*sizeof(char)); 
 
     // setup the string index for assymetrical copying
-    size_t strIndex = 0;
+    usize_t strIndex = 0;
     str[sizeOfNewStr-1] = '\0';
     // copy in the path
     for (int i = 0; i < pathLen; i++) {
