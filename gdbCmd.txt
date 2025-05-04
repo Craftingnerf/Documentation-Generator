@@ -1,2 +1,2 @@
 
-run -o ./output/ ./main.c ./main.h ./dataList.c ./filegen.c ./parser.c ./reader.c ./strList.c
+run -otq ./output/ ./main.c ./main.h ./dataList.c ./filegen.c ./parser.c ./reader.c ./strList.c

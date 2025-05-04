@@ -43,7 +43,7 @@ struct dataList* parseFile(struct strList* fileList) {
     int mutliLineComment = 0;
     int lastCommentReturn = 0;
     char* tagTypePtr;
-    printf("Opening file : %s\n", fileList->str);
+    if (loud) printf("Opening file : %s\n", fileList->str);
     struct strList* newItem;
     struct dataList* listPtr = genDataElement();
     struct dataList* startPtr = listPtr;
@@ -237,7 +237,7 @@ struct dataList* parseFile(struct strList* fileList) {
     // close the file
     fclose(filePtr);
     
-    printf("%s parsed!\n", fileList->str);
+    if (loud) printf("%s parsed!\n", fileList->str);
     return startPtr;
 }
 

@@ -5,15 +5,21 @@
 // @!D 21/04/2025
 #include "main.h"
 
-char* longArgs[] = {"--help", "\0"};
-int longArgRet[] = {1, 0};
-int longArgC = 1;
-char* shortArgs = "ho\0";
-int shortArgRet[] = {1, 0, 0};
-int shortArgC = 2;
+char* longArgs[] = {"--help", "--time", "--quiet", "\0"};
+int longArgRet[] = {1, 0, 0, 0};
+int longArgC = 3;
+char* shortArgs = "hotq\0";
+int shortArgRet[] = {1, 0, 0, 0, 0};
+int shortArgC = 4;
 struct strList* files = NULL;
 
 char* outputFolder = "./";
+
+int timeFlag = 0;
+clock_t start_clock = 0, end_clock = 0;
+double runtime = 0.0;
+
+int quietFlag = 0;
 
 int parseArgs(int argc, char** argv);
 short argFindr(char* str, char arg);
@@ -32,6 +38,10 @@ int main(int argc, char** argv) {
     if ((retVal = parseArgs(argc, argv))) {
         return retVal;
     }
+    if (timeFlag) {
+        start_clock = clock();
+    }
+
 
     struct strList* fileIterator = files;
     if (!fileIterator) {
@@ -41,17 +51,17 @@ int main(int argc, char** argv) {
         destroyStrList(files);
         return 0;
     }
-    printf("Generating documentation from the following files: \n");
-    printStrList(files);
+    if (loud) printf("Generating documentation from the following files: \n");
+    if (loud) printStrList(files);
 
-    printf("\n");
+    if (loud) printf("\n");
     while (fileIterator != NULL) {
         struct dataList* fileDocs = parseFile(fileIterator);
         
         // default currently will be obsidian.md files with the following linkings
         generateObsidianFiles(fileDocs, outputFolder, fileIterator->str, OB_BY_LINK, OB_BY_GROUP, OB_BY_GROUP);
         
-        printf("\n");
+        if (loud) printf("\n");
         
         // dont need this (clean it up)
         destroyDataList(fileDocs);
@@ -60,10 +70,14 @@ int main(int argc, char** argv) {
     }
     // clean up memory
     destroyStrList(files);
-    
-    printf("Documentation generated!\n");
-    printf("Have fun programming! :D\n");
-    
+    if (timeFlag) {
+        end_clock = clock();
+        runtime = (double)(end_clock - start_clock) / CLOCKS_PER_SEC;
+        printf("Program took : %fs\n", runtime);
+    }
+
+    if (loud) printf("Documentation generated!\n");
+    if (loud) printf("Have fun programming! :D\n");
     return 0;
 }
 
@@ -88,6 +102,15 @@ int parseArgs(int argc, char** argv) {
                             // help printout
                             helpPrintout();
                             break;
+                        case 1:
+                            // time flag
+                            timeFlag = 1;
+                            break;
+                        case 2:
+                            // quiet flag
+                            // printf("Found quiet flag\n");
+                            quietFlag = 1;
+                            break;
                     }
                     if (longArgRet[j] != 0) {return longArgRet[j];}
                 }
@@ -106,6 +129,15 @@ int parseArgs(int argc, char** argv) {
                             // output folder switch (defaults to current directory)
                             outputFolder = argv[i+1];
                             outputFlag = 1;
+                            break;
+                        case 2:
+                            // time flag
+                            timeFlag = 1;
+                            break;
+                        case 3:
+                            // quiet flag
+                            // printf("Found quiet flag\n");
+                            quietFlag = 1;
                             break;
                     }
                     if (shortArgRet[j] != 0) { return shortArgRet[j]; }
@@ -200,5 +232,7 @@ void helpPrintout() {
     printf("Available switches:\n");
     printf("\t-h (--help)\t|\tprintout this menu\n");
     printf("\t-o [Folder]\t|\tset documentation output folder\n");
+    printf("\t-t (--time)\t|\ttimes the programs speed\n");
+    printf("\t-q (--quiet)\t|\ttells the program to not print anything\n");
     // printf("\t\n");
 }

@@ -23,7 +23,12 @@
 
     #include <stdio.h>
     #include <stdlib.h>
+    #include <time.h>
+
     
+    extern int quietFlag;
+    #define loud (!quietFlag)
+
     #define usize_t unsigned long long
     #define USIZE_MAX 0xFFFFFFFFFFFFFFFF
     

@@ -21,7 +21,7 @@ char* findParentName(char* parentFile);
 // @!A int | group connection | how to link the file to its group (none, group, link)
 // @!R int | 0 if ran normally, anything else is a different problem
 int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile, int fileConn, int typeConn, int groupConn) {
-    printf("Generating Obsidian files at %s for %s\n", location, parentFile);
+    if (loud) printf("Generating Obsidian files at %s for %s\n", location, parentFile);
     struct miscData data;
     usize_t counter = 0;
     FILE* file;
@@ -47,14 +47,14 @@ int generateObsidianFiles(struct dataList* doc, char* location, char* parentFile
             // this happens sometimes
             // I think the first element in the parser.c dataList is kinda logically broken and starts with a NULL'd out element to start
             // I know it isnt good, but its not enough of an issue right now
-            printf("documentation name not found! (dumping data)\n");
+            if (loud) printf("documentation name not found! (dumping data)\n");
             printMiscData(&(doc->this));
-            printf("Data dump completed. Moving on.\n\n");
+            if (loud) printf("Data dump completed. Moving on.\n\n");
             doc = doc->next;
             continue;
         }
         
-        printf("Adding data to the file: %s\n", filename);
+        if (loud) printf("Adding data to the file: %s\n", filename);
         // printf("\tparent file\n");
         if (parentFile != NULL) {
             switch (fileConn) {
