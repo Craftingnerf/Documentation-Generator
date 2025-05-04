@@ -14,7 +14,7 @@ usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* si
 int allocateListString(char** string, usize_t* size, char* startPtr);
 int caseInsensitiveCheck(char* stringToCheck, char* string);
 int caseInsensitiveEquals(char* strA, char* strB);
-
+char* findCommentEnd(char* startPtr);
 
 // @!T Function
 // @!N parseFile
@@ -24,8 +24,6 @@ int caseInsensitiveEquals(char* strA, char* strB);
 // @!I Reads through a file and generates documentation in a struct
 // @!I heavy lifter and current headache for this program :D
 struct dataList* parseFile(struct strList* fileList) {
-    
-
     FILE* filePtr = fopen(fileList->str, "r");
     if (filePtr == NULL) {
         printf("Error opening file");
@@ -236,12 +234,11 @@ struct dataList* parseFile(struct strList* fileList) {
             break;
         }
     }
-    // free the line ptr and its pointer to a pointer
-    // line size ptr
-    // and close the file
+    // free the line
     free(line);
+    // close the file
     fclose(filePtr);
-
+    
     printf("%s parsed!\n", fileList->str);
     return startPtr;
 }
@@ -338,6 +335,8 @@ usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* si
     int charsRead = 0;
     int count = 0;
     int removeLeadingWhitespace = 1;
+    // find the pointer thats the beginning of the tag terminator or end of multiline comment ( should pass the flag if I do this, but I'm lazy)
+    char* commentEnd = findCommentEnd(lineStartPos);
     while ((ch = *(lineStartPos+(count++))) != '\0') {
         if ((*size)-2 <= charsRead) {
             // extend string
@@ -347,9 +346,13 @@ usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* si
         if (removeLeadingWhitespace && (ch == ' ' || ch == '\t')) {
             continue;
         }
+        if (commentEnd == lineStartPos+(count)) {
+            // we have reached the end of the designated string
+            // break the loop
+            break;
+        }
         removeLeadingWhitespace = 0;
         (*string)[charsRead++] = ch;
-        
         (*string)[charsRead] = '\0';
     }
     return charsRead;
@@ -374,6 +377,57 @@ int allocateListString(char** string, usize_t* size, char* startPtr) {
     generateStringFromComment(startPtr, string, size);
     return 0;
 }
+
+// @!T Function !@ extra text here :D
+// @!N findCommentEnd
+// @!G Parser */ should end here too
+// @!A char* | pointer to string to find the terminator or end of comment
+// @!R char* | where we need to stop
+// @!I some misc info */ some hidden info :)
+char* findCommentEnd(char* startPtr) {
+    char* tagTerminator = TagTerminator;
+    char* tagtermPtr = tagTerminator;
+    int commentEnd = 0;
+    // loop through the comment string
+    // if we find a character in the tag terminator, iterate it along with the start ptr
+    for (; *startPtr != '\0'; startPtr++) {
+        if (*tagtermPtr == '\0') {
+            // we found the end of the tag terminator :D
+            // in this case the comment reached
+            // ?@!?
+            //    ^ here
+            return startPtr-2;
+            // returns:
+            // ?@!?
+            //  ^ here
+        } else if (*tagtermPtr == *startPtr) {
+            tagtermPtr++;
+        } else {
+            // if it doesn't have the same character (and isnt at the end of the string)
+            // we need to reset the tag terminator pointer
+            tagtermPtr = tagTerminator;
+        }
+        if (commentEnd && *startPtr == '/') {
+            // comment end
+            // in this case the comment reached 
+            // ?*/
+            //   ^ here
+            return startPtr-1;
+            // returns:
+            // ?*/
+            //  ^ here
+        } else if (*startPtr == '*') {
+            // if we run into a * then we need to start checking for end of comment
+            commentEnd = 1;
+        } else {
+            // reset this flag if we dont find the '/' after the '*'
+            commentEnd = 0;
+        }
+    }
+    return startPtr+1;
+}
+
+
 
 // @!T Function
 // @!N caseInsensitiveCheck
