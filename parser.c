@@ -12,8 +12,6 @@ int isDocComment(char* line, usize_t lineLen, char** tagTypePtr);
 struct dataList* parseFile(struct strList* fileList);
 usize_t generateStringFromComment(char* lineStartPos, char** string, usize_t* size);
 int allocateListString(char** string, usize_t* size, char* startPtr);
-int caseInsensitiveCheck(char* stringToCheck, char* string);
-int caseInsensitiveEquals(char* strA, char* strB);
 char* findCommentEnd(char* startPtr);
 
 // @!T Function
@@ -425,57 +423,4 @@ char* findCommentEnd(char* startPtr) {
         }
     }
     return startPtr+1;
-}
-
-
-
-// @!T Function
-// @!N caseInsensitiveCheck
-// @!G Parser
-// @!A char* string to check
-// @!A char* string to look for
-// @!R boolean for if the str is contained in the check
-int caseInsensitiveCheck(char* stringToCheck, char* string) {
-    char* strStartPos = string;
-    char ch = *stringToCheck;
-    char strCh = *string;
-    for (; *stringToCheck != '\0'; stringToCheck++, strCh = *stringToCheck) {
-        if (*string == '\0') {
-            return 1;
-        }
-        if (ch > 'A') {
-            ch = (ch - 'A') + 'a';    
-        }
-        if (strCh > 'A') {
-            strCh = (ch -'A') + 'a';
-        }
-        if (ch == strCh) {
-            string++;
-            strCh = *string;
-        } else {
-            string = strStartPos;
-        }
-    }
-    return 0;
-}
-
-// @!T Function
-// @!N caseInsensitiveEquals
-// @!G Parser
-// @!A char* string A
-// @!A char* string B
-// @!R boolean for if the strs are EQUAL (in a case insensitive way)
-// @!i test case for case insensitivity
-int caseInsensitiveEquals(char* strA, char* strB) {
-    char aChar;
-    char bChar;
-    for (aChar = *strA, bChar = *strB; aChar != '\0' && bChar != '\0'; strA++, strB++, aChar = *strA, bChar = *strB) {
-        if (aChar >= 'A' && bChar <= 'Z') {
-            aChar = (aChar - 'A') + 'a';
-        }
-        if (bChar >= 'A' && bChar <= 'Z') {
-            bChar = (bChar - 'A') + 'a';
-        }
-    };
-    return aChar == bChar;
 }

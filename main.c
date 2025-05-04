@@ -202,8 +202,3 @@ void helpPrintout() {
     printf("\t-o [Folder]\t|\tset documentation output folder\n");
     // printf("\t\n");
 }
-
-
-
-// this is going to be a super long line that 'breaks' my code and causes it to fail somehow. However, I have no idea how that will happen. WHICH is why I am typing out this line :)
-// it worked :D

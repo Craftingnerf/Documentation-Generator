@@ -8,9 +8,6 @@
 #define CNBlockSize 128
 #define CNExtendSize 64
 
-void clearStream(char* buffer, usize_t len);
-
-
 // @!T Function
 // @!N extendBlock
 // @!G Reader
