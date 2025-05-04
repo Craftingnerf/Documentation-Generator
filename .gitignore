@@ -2,3 +2,5 @@ here.bat
 docGen.exe
 output/
 docGen
+showcase.bat
+showcase.log
